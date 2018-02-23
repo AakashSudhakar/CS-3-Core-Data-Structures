@@ -1,81 +1,94 @@
 #!python
+# NAME: bases.py
+# CONTRIBUTOR: Aakash Sudhakar
 
-import string
-# Hint: Use these string constants to encode/decode hexadecimal digits and more
-# string.digits is '0123456789'
-# string.hexdigits is '0123456789abcdefABCDEF'
-# string.ascii_lowercase is 'abcdefghijklmnopqrstuvwxyz'
-# string.ascii_uppercase is 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-# string.ascii_letters is ascii_lowercase + ascii_uppercase
-# string.printable is digits + ascii_letters + punctuation + whitespace
+# ================================== GLOBAL IMPORT STATEMENTS ====================================
 
+import sys, string
 
+# ================== METHOD TO DECODE GIVEN BASE-CONVERTED NUMBER INTO BASE 10 ===================
+# TODO: Try recursive solution
 def decode(digits, base):
-    """Decode given digits in given base to number in base 10.
-    digits: str -- string representation of number (in given base)
-    base: int -- base of given number
-    return: int -- integer representation of number (in base 10)"""
     # Handle up to base 36 [0-9a-z]
-    assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
-    # TODO: Decode digits from binary (base 2)
-    # ...
-    # TODO: Decode digits from hexadecimal (base 16)
-    # ...
-    # TODO: Decode digits from any base (2 up to 36)
-    # ...
+    assert (2 <= base <= 36), "\nBASE IS OUT-OF-RANGE: {}\n".format(base)
+
+    # Creates dictionary of possible base conversion digits
+    base_conversion_dict, iterator = dict(), 0
+    for item in (string.digits + string.ascii_lowercase):
+        base_conversion_dict[item] = iterator
+        iterator += 1
+
+    # Iterates through digit string and converts into base power sum in base 10
+    # TODO: Refactor for readability
+    return sum([(int(base_conversion_dict[digit]) * (base ** index)) for index, digit in enumerate(str(digits)[::-1])])
 
 
+# ==================== METHOD TO ENCODE BASE 10 NUMBER INTO BASE-CONVERSION ======================
+# TODO: Try non-recursive solution
 def encode(number, base):
-    """Encode given number in base 10 to digits in given base.
-    number: int -- integer representation of number (in base 10)
-    base: int -- base to convert to
-    return: str -- string representation of number (in given base)"""
+    # Handle up to base 36 [0-9a-z] and unsigned numbers only for now
+    assert (2 <= base <= 36), "\nBASE IS OUT OF RANGE: {}\n".format(base)
+    assert number >= 0, "\nNUMBER IS NEGATIVE: {}\n".format(number)
+
+    base_list = string.digits + string.ascii_lowercase
+    if number < base:
+        return base_list[number]
+    else:
+        return encode(number // base, base) + base_list[number % base]
+
+    # NOTE: Attempts at turning into list comprehension
+    # [base_list[number] if (number < base) else (encode(number // base, base) + base_list[number % base])]
+    # return [base_list[number] if number < base else encode(number // base, base) + base_list[number % base]]
+
+
+# =================== METHOD TO CONVERT ONE BASE-CONVERTED NUMBER TO ANOTHER =====================
+def convert(digits, base_original, base_final):
     # Handle up to base 36 [0-9a-z]
-    assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
-    # Handle unsigned numbers only for now
-    assert number >= 0, 'number is negative: {}'.format(number)
-    # TODO: Encode number in binary (base 2)
-    # ...
-    # TODO: Encode number in hexadecimal (base 16)
-    # ...
-    # TODO: Encode number in any base (2 up to 36)
-    # ...
+    assert 2 <= base_original <= 36, "\nORIGINAL BASE IS OUT OF RANGE: {}\n".format(base_original)
+    assert 2 <= base_final <= 36, "\nFINAL BASE IS OUT OF RANGE: {}\n".format(base_final)
+
+    return encode(decode(digits, base_original), base_final)
 
 
-def convert(digits, base1, base2):
-    """Convert given digits in base1 to digits in base2.
-    digits: str -- string representation of number (in base1)
-    base1: int -- base of given number
-    base2: int -- base to convert to
-    return: str -- string representation of number (in base2)"""
-    # Handle up to base 36 [0-9a-z]
-    assert 2 <= base1 <= 36, 'base1 is out of range: {}'.format(base1)
-    assert 2 <= base2 <= 36, 'base2 is out of range: {}'.format(base2)
-    # TODO: Convert digits from base 2 to base 16 (and vice versa)
-    # ...
-    # TODO: Convert digits from base 2 to base 10 (and vice versa)
-    # ...
-    # TODO: Convert digits from base 10 to base 16 (and vice versa)
-    # ...
-    # TODO: Convert digits from any base to any base (2 up to 36)
-    # ...
+# ======================= METHOD TO TEST SIMPLE CASES OF DECODE() METHOD =========================
+def test_decode():
+    # Testing decode()
+    args = sys.argv[1:]                                         # Ignore script file name
+    digits = args[0].lower()
+    base = int(args[1])
+    result = decode(digits, base)
+    print("\n{} IN BASE {} IS {} IN BASE 10\n".format(digits, base, result))
+ 
 
+# ======================= METHOD TO TEST SIMPLE CASES OF ENCODE() METHOD =========================
+def test_encode():
+    # Testing encode()
+    args = sys.argv[1:]                                         # Ignore script file name
+    digits = int(args[0])
+    base = int(args[1])
+    result = encode(digits, base)
+    print("\n{} IN BASE 10 IS {} IN BASE {}\n".format(digits, result, base))
 
-def main():
-    """Read command-line arguments and convert given digits between bases."""
-    import sys
-    args = sys.argv[1:]  # Ignore script file name
+# ======================= METHOD TO TEST SIMPLE CASES OF CONVERT() METHOD ========================
+def test_convert():
+    # Testing convert()
+    args = sys.argv[1:]
     if len(args) == 3:
         digits = args[0]
-        base1 = int(args[1])
-        base2 = int(args[2])
-        # Convert given digits between bases
-        result = convert(digits, base1, base2)
-        print('{} in base {} is {} in base {}'.format(digits, base1, result, base2))
+        base_original = int(args[1])
+        base_final = int(args[2])
+        result = convert(digits, base_original, base_final)         # Convert given digits between bases
+        print("\n{} IN BASE {} IS {} IN BASE {}\n".format(digits, base_original, result, base_final))
     else:
-        print('Usage: {} digits base1 base2'.format(sys.argv[0]))
-        print('Converts digits from base1 to base2')
+        print("\nUSAGE: {} [digits] [base_original] [base_final]".format(sys.argv[0]))
+        print("CONVERTS [digits] FROM [base] TO [base_final]\n")
+
+# ====================================== MAIN RUN FUNCTION =======================================
+def main():
+    # test_decode()
+    test_encode()
+    # test_convert()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
