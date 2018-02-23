@@ -24,7 +24,7 @@ def decode(digits, base):
 
 
 # ==================== METHOD TO ENCODE BASE 10 NUMBER INTO BASE-CONVERSION ======================
-# TODO: Try non-recursive solution
+# TODO: Try iterative solution
 def encode(number, base):
     # Handle up to base 36 [0-9a-z] and unsigned numbers only for now
     assert (2 <= base <= 36), "\nBASE IS OUT OF RANGE: {}\n".format(base)
