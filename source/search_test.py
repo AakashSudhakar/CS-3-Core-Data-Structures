@@ -1,6 +1,7 @@
 #!python
 
 from search import linear_search, binary_search
+from search_stretch import generate_permutations_heap
 import unittest
 
 
@@ -42,6 +43,12 @@ class SearchTest(unittest.TestCase):
         # binary search should return None for any item not in the list
         assert binary_search(names, 'Jeremy') is None
         assert binary_search(names, 'nobody') is None
+
+    def test_generate_permutations_heap_with_standard_input(self):
+        pass
+
+    def test_generate_permutations_heap_with_irregular_input(self):
+        pass
 
 
 if __name__ == '__main__':

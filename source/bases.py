@@ -14,14 +14,17 @@ def decode(digits, base):
     assert (2 <= base <= 36), "\nBASE IS OUT-OF-RANGE: {}\n".format(base)
 
     # Creates dictionary of possible base conversion digits
-    base_conversion_dict, iterator = dict(), 0
+    base_conversion_dict, iterator, base_sum = dict(), 0, 0
     for item in (string.digits + string.ascii_lowercase):
         base_conversion_dict[item] = iterator
         iterator += 1
 
     # Iterates through digit string and converts into base power sum in base 10
-    # TODO: Refactor for readability
-    return sum([(int(base_conversion_dict[digit]) * (base ** index)) for index, digit in enumerate(str(digits)[::-1])])
+    for index, digit in enumerate(str(digits)[::-1]):
+        base_sum += int(base_conversion_dict[digit]) * (base ** index)
+    return base_sum
+    
+    # return sum([(int(base_conversion_dict[digit]) * (base ** index)) for index, digit in enumerate(str(digits)[::-1])])
 
 
 # ==================== METHOD TO ENCODE BASE 10 NUMBER INTO BASE-CONVERSION ======================
@@ -37,10 +40,6 @@ def encode(number, base):
     else:
         return encode(number // base, base) + base_list[number % base]
 
-    # NOTE: Attempts at turning into list comprehension
-    # [base_list[number] if (number < base) else (encode(number // base, base) + base_list[number % base])]
-    # return [base_list[number] if number < base else encode(number // base, base) + base_list[number % base]]
-
 
 # =================== METHOD TO CONVERT ONE BASE-CONVERTED NUMBER TO ANOTHER =====================
 def convert(digits, base_original, base_final):
@@ -55,20 +54,27 @@ def convert(digits, base_original, base_final):
 def test_decode():
     # Testing decode()
     args = sys.argv[1:]                                         # Ignore script file name
-    digits = args[0].lower()
-    base = int(args[1])
-    result = decode(digits, base)
-    print("\n{} IN BASE {} IS {} IN BASE 10\n".format(digits, base, result))
- 
+    if len(args) == 2:
+        digits = args[0].lower()
+        base = int(args[1])
+        result = decode(digits, base)
+        print("\n{} IN BASE {} IS {} IN BASE 10\n".format(digits, base, result))
+    else:
+        print("\nUSAGE: {} [digits] [base]".format(sys.argv[0]))
+        print("DECODES [digits] FROM [base] TO BASE 10\n")
 
 # ======================= METHOD TO TEST SIMPLE CASES OF ENCODE() METHOD =========================
 def test_encode():
     # Testing encode()
-    args = sys.argv[1:]                                         # Ignore script file name
-    digits = int(args[0])
-    base = int(args[1])
-    result = encode(digits, base)
-    print("\n{} IN BASE 10 IS {} IN BASE {}\n".format(digits, result, base))
+    args = sys.argv[1:]   
+    if len(args) == 2:                                      # Ignore script file name
+        digits, base = int(args[0]), int(args[1])
+        result = encode(digits, base)
+        print("\n{} IN BASE 10 IS {} IN BASE {}\n".format(digits, result.upper(), base))
+    else:
+        print("\nUSAGE: {} [digits] [base]".format(sys.argv[0]))
+        print("ENCODES [digits] FROM BASE 10 TO [base]\n")
+        
 
 # ======================= METHOD TO TEST SIMPLE CASES OF CONVERT() METHOD ========================
 def test_convert():
@@ -79,16 +85,16 @@ def test_convert():
         base_original = int(args[1])
         base_final = int(args[2])
         result = convert(digits, base_original, base_final)         # Convert given digits between bases
-        print("\n{} IN BASE {} IS {} IN BASE {}\n".format(digits, base_original, result, base_final))
+        print("\n{} IN BASE {} IS {} IN BASE {}\n".format(digits, base_original, result.upper(), base_final))
     else:
         print("\nUSAGE: {} [digits] [base_original] [base_final]".format(sys.argv[0]))
-        print("CONVERTS [digits] FROM [base] TO [base_final]\n")
+        print("CONVERTS [digits] FROM [base_original] TO [base_final]\n")
 
 # ====================================== MAIN RUN FUNCTION =======================================
 def main():
     # test_decode()
-    test_encode()
-    # test_convert()
+    # test_encode()
+    test_convert()
 
 
 if __name__ == "__main__":
