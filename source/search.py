@@ -53,8 +53,10 @@ def binary_search_iterative(array, item):
             return bisector
         elif array[bisector] < item:        # Ignores left half if item is greater than value
             left_bound = bisector + 1
+            continue
         else:                               # Ignores right half if item is less than value
             right_bound = bisector - 1
+            continue
 
     return None
 

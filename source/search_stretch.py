@@ -16,20 +16,10 @@ def generate_permutations_heap_iterative(n, array):
     pass
 
 # ====================== FUNCTION TO RECURSIVELY PERFORM HEAP'S ALGORITHM ========================
-def generate_permutations_heap_recursive(n, array):
+# TODO: 
+def generate_permutations_recursive(n, array):
     """ Recursively generates permutations from string data. """
-    if n == 0:
-        return array
-    else:
-        for iterator in range(n - 1):
-            return generate_permutations_heap_recursive(n - 1, array)
-            
-            if iterator % 2 == 0:
-                swap_elements(array, iterator, n - 1)
-            else:
-                swap_elements(array, 0, n - 1)
-            
-        return generate_permutations_heap_recursive(n - 1, array)
+    
 
 # ========================= FUNCTION TO SWAP PERMUTATION DATA BY INDEX ===========================
 def swap_elements(array, i, j):
