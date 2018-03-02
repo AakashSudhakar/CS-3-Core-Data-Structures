@@ -6,13 +6,14 @@ from re import sub
 def is_palindrome(text):
     """ Function checks if input string is palindrome (ignores non-alphabetical characters). """
     assert isinstance(text, str), "\nINPUT IS NOT A STRING {}".format(text)
+
+    text = sub(r"[^a-zA-Z]", "", text).lower()              # RegEx comparative search 
+
     # return is_palindrome_iterative(text)
     return is_palindrome_recursive(text)
 
 def is_palindrome_iterative(text):
     """ Iteratively checks using RegEx for alphabetical matching across string by index. """
-    # TODO: Don't do RegEx!
-    text = sub(r"[^a-zA-Z]", "", text).lower()              # RegEx comparative search 
     left, right = 0, len(text) - 1
 
     # While indices are unequal & converging, check L/R char match (mid doesn't matter)
@@ -27,9 +28,8 @@ def is_palindrome_iterative(text):
 
 def is_palindrome_recursive(text, left=None, right=None):
     """ Recursively checks using RegEx for alphabetical matching across string by index. """
-    # TODO: Don't do RegEx!
-    text = sub(r"[^a-zA-Z]", "", text).lower()              # RegEx comparative search
     
+    # Sets initial cases for L/R bounds
     if left is None: left = 0
     if right is None: right = len(text) - 1
 
