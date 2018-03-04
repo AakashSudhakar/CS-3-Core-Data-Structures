@@ -1,6 +1,6 @@
 #!python
 
-from strings import contains, find_index, find_all_indexes
+from strings import contains, find_index, find_all_indices
 import unittest
 
 
@@ -79,41 +79,41 @@ class StringsTest(unittest.TestCase):
         # You'll need a lot more than this to test your algorithm's robustness
         # ...
 
-    def test_find_all_indexes_with_matching_patterns(self):
+    def test_find_all_indices_with_matching_patterns(self):
         # Positive test cases (examples) with matching patterns
-        assert find_all_indexes('abc', '') == [0, 1, 2]  # all strings contain empty string
-        assert find_all_indexes('abc', 'a') == [0]  # single letters are easy
-        assert find_all_indexes('abc', 'b') == [1]
-        assert find_all_indexes('abc', 'c') == [2]
-        assert find_all_indexes('abc', 'ab') == [0]  # multiple letters are harder
-        assert find_all_indexes('abc', 'bc') == [1]
-        assert find_all_indexes('abc', 'abc') == [0]  # all strings contain themselves
-        assert find_all_indexes('aaa', 'a') == [0, 1, 2]  # multiple occurrences
-        assert find_all_indexes('aaa', 'aa') == [0, 1]  # overlapping pattern
+        assert find_all_indices('abc', '') == [0, 1, 2]  # all strings contain empty string
+        assert find_all_indices('abc', 'a') == [0]  # single letters are easy
+        assert find_all_indices('abc', 'b') == [1]
+        assert find_all_indices('abc', 'c') == [2]
+        assert find_all_indices('abc', 'ab') == [0]  # multiple letters are harder
+        assert find_all_indices('abc', 'bc') == [1]
+        assert find_all_indices('abc', 'abc') == [0]  # all strings contain themselves
+        assert find_all_indices('aaa', 'a') == [0, 1, 2]  # multiple occurrences
+        assert find_all_indices('aaa', 'aa') == [0, 1]  # overlapping pattern
         # TODO: Write more positive test cases with assert equal list statements
         # ...
 
-    def test_find_all_indexes_with_non_matching_patterns(self):
+    def test_find_all_indices_with_non_matching_patterns(self):
         # Negative test cases (counterexamples) with non-matching patterns
-        assert find_all_indexes('abc', 'z') == []  # remember to test other letters
-        assert find_all_indexes('abc', 'ac') == []  # important to test close cases
-        assert find_all_indexes('abc', 'az') == []  # first letter, but not last
-        assert find_all_indexes('abc', 'abz') == []  # first 2 letters, but not last
+        assert find_all_indices('abc', 'z') == []  # remember to test other letters
+        assert find_all_indices('abc', 'ac') == []  # important to test close cases
+        assert find_all_indices('abc', 'az') == []  # first letter, but not last
+        assert find_all_indices('abc', 'abz') == []  # first 2 letters, but not last
         # TODO: Write more negative test cases with assert equal list statements
         # ...
 
-    def test_find_all_indexes_with_complex_patterns(self):
+    def test_find_all_indices_with_complex_patterns(self):
         # Difficult test cases (examples) with complex patterns
-        assert find_all_indexes('ababc', 'abc') == [2]  # overlapping prefix
-        assert find_all_indexes('bananas', 'nas') == [4]  # overlapping prefix
-        assert find_all_indexes('abcabcabc', 'abc') == [0, 3, 6]  # multiple occurrences
-        assert find_all_indexes('abcabcab', 'abc') == [0, 3]  # multiple occurrences
-        assert find_all_indexes('abcabcdef', 'abcd') == [3]  # overlapping prefix
-        assert find_all_indexes('abcabcdef', 'abcdef') == [3]  # overlapping prefix
-        assert find_all_indexes('abcabcdabcde', 'abcde') == [7]  # overlapping prefix
-        assert find_all_indexes('abcabcdabcde', 'abcd') == [3, 7]  # multiple occurrences, overlapping prefix
-        assert find_all_indexes('abra cadabra', 'abra') == [0, 8]  # multiple occurrences
-        assert find_all_indexes('abra cadabra', 'adab') == [6]  # overlapping prefix
+        assert find_all_indices('ababc', 'abc') == [2]  # overlapping prefix
+        assert find_all_indices('bananas', 'nas') == [4]  # overlapping prefix
+        assert find_all_indices('abcabcabc', 'abc') == [0, 3, 6]  # multiple occurrences
+        assert find_all_indices('abcabcab', 'abc') == [0, 3]  # multiple occurrences
+        assert find_all_indices('abcabcdef', 'abcd') == [3]  # overlapping prefix
+        assert find_all_indices('abcabcdef', 'abcdef') == [3]  # overlapping prefix
+        assert find_all_indices('abcabcdabcde', 'abcde') == [7]  # overlapping prefix
+        assert find_all_indices('abcabcdabcde', 'abcd') == [3, 7]  # multiple occurrences, overlapping prefix
+        assert find_all_indices('abra cadabra', 'abra') == [0, 8]  # multiple occurrences
+        assert find_all_indices('abra cadabra', 'adab') == [6]  # overlapping prefix
         # TODO: Write more test cases that check complex patterns or edge cases
         # You'll need a lot more than this to test your algorithm's robustness
         # ...

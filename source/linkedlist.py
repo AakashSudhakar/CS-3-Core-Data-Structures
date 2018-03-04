@@ -15,9 +15,9 @@ class LinkedList(object):
 
     def __init__(self, iterable=None):
         """ Initializes linked list and appends given items, if any. """
-        self.head = None                        # First node
-        self.tail = None                        # Last node
-        self.size = 0                           # Number of nodes
+        self.head = None                            # First node
+        self.tail = None                            # Last node
+        self.size = 0                               # Number of nodes
 
         # Append the given items
         if iterable:
@@ -27,7 +27,7 @@ class LinkedList(object):
     def __str__(self):
         """ Returns formatted string representation of linked list. """
         items = ["({!r})".format(item) for item in self.items()]
-        return "[{}]".format(" -> ".join(items))
+        return "[{}]".format(" --> ".join(items))
 
     def __repr__(self):
         """ Returns string representation of linked list. """
@@ -36,12 +36,12 @@ class LinkedList(object):
     def items(self):
         """ Returns list of all items in linked list.\n
         BEST/WORST CASE = O(n) --> Must loop through all data. """
-        result, node = list(), self.head        # Create new list and node instance (constant time)
+        result, node = list(), self.head            # Create new list and node instance (constant time)
 
         # Loop until the node is None, which is one node too far past the tail
-        while node:                             # n iterations because no early exit
-            result.append(node.data)            # Append node's data to results (constant time)
-            node = node.next                    # Skip to next node (constant time)
+        while node:                                 # n iterations because no early exit
+            result.append(node.data)                # Append node's data to results (constant time)
+            node = node.next                        # Skip to next node (constant time)
         return result  
 
     def is_empty(self):
@@ -51,13 +51,13 @@ class LinkedList(object):
     def length(self):
         """ Returns length of linked list by traversing nodes.\n
         BEST/WORST CASE = O(n) --> Must iterate through all items in list. """
-        node_count = 0                          # Node counter initialized to zero
-        node = self.head                        # Start at head node
+        node_count = 0                              # Node counter initialized to zero
+        node = self.head                            # Start at head node
 
         # Loop until the node is None, which is one node too far past the tail
         while node:
-            node_count += 1                     # Increment node counter
-            node = node.next                    # Skip to next node
+            node_count += 1                         # Increment node counter
+            node = node.next                        # Skip to next node
         return node_count
 
     def get_at_index(self, index):
@@ -74,37 +74,42 @@ class LinkedList(object):
 
         # Loop until node index matches input index, then return data
         while node_index < index:
-            node_index += 1                     # Increment node counter
-            node = node.next                    # Skip to next node
-            _data_ = node.data                  # Grab next node's data
+            node_index += 1                         # Increment node counter
+            node = node.next                        # Skip to next node
+            _data_ = node.data                      # Grab next node's data
         return _data_
 
     def insert_at_index(self, index, item):
         """ Inserts given item at given index in linked list, or
         raises ValueError if given index is out of range of list size.\n
         BEST CASE = O(1) --> Inserts item at head of list.\n
-        WORST CASE = O(n) --> Inserts item at tail of list. """
+        WORST CASE = O(n) --> Inserts item in middle of list. """
+        # TODO: Use .get_at_index() for clarity
         # Check if the given index is out of range and if so raise an error
         if not (0 <= index <= self.size):
             raise ValueError("\nLIST INDEX OUT OF RANGE: {}\n".format(index))
         
         # Instantiates Node object and increments size
         node = Node(item)
-        self.size += 1                              # Increments size
 
         # Checks base case where head is not defined, then creates head and tail
         if self.head is None:
-            self.head = self.tail = node            # Sets head and tail to single node     
+            self.head = self.tail = node            # Sets head and tail to single node
+            self.size += 1   
         # Inserts item at head, redefines item as head, and points head to next
+        # TODO: Use .prepend() method for clarity
         elif index == 0:
-            _head_ = self.head
-            node.next = _head_
-            self.head = node
+            # _head_ = self.head
+            # node.next = _head_
+            # self.head = node
+            self.prepend(node.data)
         # Inserts item at tail, redefines item as tail, and points previous item to tail
+        # TODO: Use .append() method for clarity
         elif index == self.size - 1:
-            _tail_ = self.tail
-            _tail_.next = node
-            self.tail = node
+            # _tail_ = self.tail
+            # _tail_.next = node
+            # self.tail = node
+            self.append(node.data)
         # Inserts item anywhere else and defines pointers to and from item
         else:
             node_index = 0
@@ -116,6 +121,7 @@ class LinkedList(object):
                 if index == node_index - 1:         # Check if index is at end of list
                     _curr_.next = node
                     node.next = _next_
+                    self.size += 1
                     return
                 node_index += 1                     # Increment node index
 
@@ -182,6 +188,7 @@ class LinkedList(object):
         """ Deletes given item from linked list, or raises ValueError.\n
         BEST CASE = O(1) --> Deletes item at head of list.\n
         WORST CASE = O(n) --> Deletes item at tail of list. """
+        # TODO: Use .find()
         node = self.head                            # Start at head node
         # Keeps track of node before item-containing node and creates flag for finding given item
         _prev_, is_found = None, False    
