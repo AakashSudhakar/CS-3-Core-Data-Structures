@@ -94,7 +94,8 @@ class LinkedList(object):
 
         # Checks base case where head is not defined, then creates head and tail
         if self.head is None:
-            self.head = self.tail = node            # Sets head and tail to single node
+            self.head = node            # Sets head and tail to single node
+            self.tail = node
             self.size += 1   
         # Inserts item at head, redefines item as head, and points head to next
         # TODO: Use .prepend() method for clarity
@@ -106,10 +107,10 @@ class LinkedList(object):
         # Inserts item at tail, redefines item as tail, and points previous item to tail
         # TODO: Use .append() method for clarity
         elif index == self.size - 1:
-            # _tail_ = self.tail
-            # _tail_.next = node
-            # self.tail = node
-            self.append(node.data)
+            _tail_ = self.tail
+            _tail_.next = node
+            self.tail = node
+            # self.append(node.data)
         # Inserts item anywhere else and defines pointers to and from item
         else:
             node_index = 0
