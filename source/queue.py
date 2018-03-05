@@ -3,8 +3,9 @@
 from linkedlist import LinkedList
 
 
-# Implement LinkedQueue below, then change the assignment at the bottom
-# to use this Queue implementation to verify it passes all tests
+""" Implement LinkedQueue below, then change the assignment at the bottom
+to use this Queue implementation to verify it passes all tests """
+
 class LinkedQueue(object):
 
     def __init__(self, iterable=None):
@@ -29,8 +30,7 @@ class LinkedQueue(object):
 
     def enqueue(self, item):
         """ Inserts given item at back of queue.\n
-        BEST CASE: O(???) –-> \n
-        WORST CASE: O(???) --> """
+        BEST/WORST CASE: O(1) --> Appends item at front of queue. """
         return self.list.append(item)
 
     def front(self):
@@ -43,8 +43,7 @@ class LinkedQueue(object):
     def dequeue(self):
         """ Removes and returns item at front of queue,
         or raises ValueError if queue is empty.\n
-        BEST CASE: O(???) –-> \n
-        WORST CASE: O(???) --> """
+        BEST/WORST CASE: O(1) --> Deletes item at front of queue. """
         if self.is_empty():
             raise ValueError("\n\nQUEUE IS EMPTY.\n")
         else:
@@ -53,8 +52,8 @@ class LinkedQueue(object):
             return front_queue_item
 
 
-# Implement ArrayQueue below, then change the assignment at the bottom
-# to use this Queue implementation to verify it passes all tests
+""" Implement ArrayQueue below, then change the assignment at the bottom
+to use this Queue implementation to verify it passes all tests """
 class ArrayQueue(object):
 
     def __init__(self, iterable=None):
@@ -81,8 +80,7 @@ class ArrayQueue(object):
 
     def enqueue(self, item):
         """ Inserts given item at back of queue.\n
-        BEST CASE: O(???) –-> \n
-        WORST CASE: O(???) --> """
+        BEST/WORST CASE: O(1) --> Appends item at back of queue. """
         return self.list.append(item)
 
     def front(self):
@@ -95,14 +93,13 @@ class ArrayQueue(object):
     def dequeue(self):
         """ Removes and returns item at front of queue,
         or raises ValueError if queue is empty.\n
-        BEST CASE: O(???) –-> \n
-        WORST CASE: O(???) --> """
+        BEST/WORST CASE: O(1) --> Removes item at front of queue. """
         if self.is_empty():
             raise ValueError("\n\nQUEUE IS EMPTY.\n")
         return self.list.pop(0)
 
 
-# Implement LinkedQueue and ArrayQueue above, then change the assignment below
-# to use each of your Queue implementations to verify they each pass all tests
+""" Implement LinkedQueue and ArrayQueue above, then change the assignment below
+to use each of your Queue implementations to verify they each pass all tests """
 # Queue = LinkedQueue
 Queue = ArrayQueue

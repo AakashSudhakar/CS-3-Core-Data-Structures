@@ -29,8 +29,7 @@ class LinkedStack(object):
 
     def push(self, item):
         """ Inserts given item on top of stack.\n
-        BEST CASE: O(???) –-> \n
-        WORST CASE: O(???) --> """
+        BEST/WORST CASE: O(1) --> Preprends item to top of stack. """
         return self.list.prepend(item)
 
     def peek(self):
@@ -43,8 +42,7 @@ class LinkedStack(object):
     def pop(self):
         """ Removes and returns item on top of stack,
         or raise ValueError if stack is empty.\n
-        BEST CASE: O(???) –-> \n
-        WORST CASE: O(???) --> """
+        BEST/WORST CASE: O(1) --> Deletes and returns item from top of stack. """
         if self.is_empty():
             raise ValueError("\n\nSTACK IS EMPTY.\n")
         else:
@@ -81,8 +79,7 @@ class ArrayStack(object):
 
     def push(self, item):
         """ Inserts given item on top of stack.\n
-        BEST CASE: O(???) –-> \n
-        WORST CASE: O(???) --> """
+        BEST/WORST CASE: O(1) --> Appends item to top of stack. """
         self.list.append(item)
 
     def peek(self):
@@ -95,8 +92,7 @@ class ArrayStack(object):
     def pop(self):
         """ Removes and returns item on top of stack,
         or raises ValueError if stack is empty.\n
-        BEST CASE = O(???) --> \n
-        WORST CASE = O(???) -->  """
+        BEST/WORST CASE = O(1) --> Pops item from top of stack. """
         if self.is_empty():
             raise ValueError("\n\nSTACK IS EMPTY.\n")
         return self.list.pop()
