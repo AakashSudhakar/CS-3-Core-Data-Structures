@@ -8,7 +8,7 @@ from linkedlist import LinkedList
 class LinkedStack(object):
 
     def __init__(self, iterable=None):
-        """Initialize this stack and push the given items, if any."""
+        """ Initializes stack and pushes given items, if any. """
         # Initialize a new linked list to store the items
         self.list = LinkedList()
         if iterable is not None:
@@ -16,33 +16,35 @@ class LinkedStack(object):
                 self.push(item)
 
     def __repr__(self):
-        """Return a string representation of this stack."""
-        return 'Stack({} items, top={})'.format(self.length(), self.peek())
+        """ Returns string representation of stack. """
+        return "Stack({} items, top={})".format(self.length(), self.peek())
 
     def is_empty(self):
-        """Return True if this stack is empty, or False otherwise."""
+        """ Returns True if stack is empty, or False otherwise. """
         return self.list.is_empty()
 
     def length(self):
-        """Return the number of items in this stack."""
+        """ Returns number of items in stack. """
         return self.list.length()
 
     def push(self, item):
-        """Insert the given item on the top of this stack.
-        Running time: O(???) – Why? [TODO]"""
+        """ Inserts given item on top of stack.\n
+        BEST CASE: O(???) –-> \n
+        WORST CASE: O(???) --> """
         return self.list.prepend(item)
 
     def peek(self):
-        """Return the item on the top of this stack without removing it,
-        or None if this stack is empty."""
+        """ Returns item on top of stack without removing it,
+        or None if stack is empty. """
         if self.is_empty():
             return None
         return self.list.get_at_index(0)
 
     def pop(self):
-        """Remove and return the item on the top of this stack,
-        or raise ValueError if this stack is empty.
-        Running time: O(???) – Why? [TODO]"""
+        """ Removes and returns item on top of stack,
+        or raise ValueError if stack is empty.\n
+        BEST CASE: O(???) –-> \n
+        WORST CASE: O(???) --> """
         if self.is_empty():
             raise ValueError("\n\nSTACK IS EMPTY.\n")
         else:
@@ -102,5 +104,5 @@ class ArrayStack(object):
 
 # Implement LinkedStack and ArrayStack above, then change the assignment below
 # to use each of your Stack implementations to verify they each pass all tests
-Stack = LinkedStack
-# Stack = ArrayStack
+# Stack = LinkedStack
+Stack = ArrayStack
