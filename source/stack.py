@@ -87,7 +87,8 @@ class ArrayStack(object):
         or None if stack is empty."""
         if self.is_empty():
             return None
-        return self.list[len(self.list) - 1]
+        list_length = len(self.list) - 1
+        return self.list[list_length]
 
     def pop(self):
         """ Removes and returns item on top of stack,
