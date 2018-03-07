@@ -30,7 +30,7 @@ class HashTable(object):
 
     def keys(self):
         """ Returns list of all keys in hash table.\n
-        Best and worst case running time: ??? under what conditions? [TODO]"""
+        BEST/WORST CASE = O(m * n) --> Iterate through all items in old and new tables. """
         # Collect all keys in each of the buckets
         all_keys = list()
         for bucket in self.buckets:
@@ -40,7 +40,7 @@ class HashTable(object):
 
     def values(self):
         """ Returns list of all values in hash table.\n
-        Best and worst case running time: ??? under what conditions? [TODO]"""
+        BEST/WORST CASE = O(m * n) --> Iterate through all items in old and new tables. """
         # Collect all values in each of the buckets
         all_values = list()
         for bucket in self.buckets:
@@ -50,7 +50,7 @@ class HashTable(object):
 
     def items(self):
         """ Returns list of all entries (key-value pairs) in hash table.\n
-        Best and worst case running time: ??? under what conditions? [TODO]"""
+        BEST/WORST CASE = O(m * n) --> Iterate through all items in old and new tables. """
         # Collect all pairs of key-value entries in each of the buckets
         all_items = list()
         for bucket in self.buckets:
@@ -59,7 +59,7 @@ class HashTable(object):
 
     def length(self):
         """Return the number of key-value entries by traversing its buckets.\n
-        Best and worst case running time: ??? under what conditions? [TODO]"""
+        BEST/WORST CASE = O(m * n) --> Iterate through all items in old and new tables. """
         # Count number of key-value entries in each of the buckets
         item_count = 0
         for bucket in self.buckets:
