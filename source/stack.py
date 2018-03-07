@@ -37,7 +37,7 @@ class LinkedStack(object):
         or None if stack is empty. """
         if self.is_empty():
             return None
-        return self.list.get_at_index(0)
+        return self.list.head.data
 
     def pop(self):
         """ Removes and returns item on top of stack,
@@ -79,7 +79,8 @@ class ArrayStack(object):
 
     def push(self, item):
         """ Inserts given item on top of stack.\n
-        BEST/WORST CASE: O(1) --> Appends item to top of stack. """
+        BEST/WORST CASE: O(1)* --> Appends item to top of stack. 
+        * --> On average, array must double to resize. """
         self.list.append(item)
 
     def peek(self):

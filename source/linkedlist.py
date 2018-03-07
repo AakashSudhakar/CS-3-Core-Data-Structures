@@ -1,5 +1,7 @@
 #!python
 
+import pdb
+
 class Node(object):
 
     def __init__(self, data):
@@ -91,6 +93,7 @@ class LinkedList(object):
         
         # Instantiates Node object and increments size
         node = Node(item)
+        pdb.set_trace()
 
         # Checks base case where head is not defined, then creates head and tail
         if self.head is None:
@@ -98,19 +101,11 @@ class LinkedList(object):
             self.tail = node
             self.size += 1   
         # Inserts item at head, redefines item as head, and points head to next
-        # TODO: Use .prepend() method for clarity
         elif index == 0:
-            # _head_ = self.head
-            # node.next = _head_
-            # self.head = node
             self.prepend(node.data)
         # Inserts item at tail, redefines item as tail, and points previous item to tail
-        # TODO: Use .append() method for clarity
-        elif index == self.size - 1:
-            _tail_ = self.tail
-            _tail_.next = node
-            self.tail = node
-            # self.append(node.data)
+        elif index == self.size:
+            self.append(node.data)
         # Inserts item anywhere else and defines pointers to and from item
         else:
             node_index = 0
@@ -118,7 +113,7 @@ class LinkedList(object):
             _next_ = _curr_.next                    # Moves next pointer ahead
 
             # Loops through while indices are unequal to define node placement
-            while node_index < index:
+            while node_index <= index:
                 if index == node_index - 1:         # Check if index is at end of list
                     _curr_.next = node
                     node.next = _next_
