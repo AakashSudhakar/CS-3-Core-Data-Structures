@@ -51,49 +51,48 @@ class HashTable(object):
     def items(self):
         """ Returns list of all entries (key-value pairs) in hash table.\n
         BEST/WORST CASE = O(m * n) --> Iterate through all items in old and new tables. """
-        # Collect all pairs of key-value entries in each of the buckets
+        # Collects all pairs of key-value entries in every bucket
         all_items = list()
         for bucket in self.buckets:
             all_items.extend(bucket.items())
         return all_items
 
     def length(self):
-        """Return the number of key-value entries by traversing its buckets.\n
+        """ Returns number of key-value entries by traversing buckets.\n
         BEST/WORST CASE = O(m * n) --> Iterate through all items in old and new tables. """
-        # Count number of key-value entries in each of the buckets
-        item_count = 0
-        for bucket in self.buckets:
-            item_count += bucket.length()
-        return item_count
-        # Equivalent to this list comprehension:
         return sum(bucket.length() for bucket in self.buckets)
+        # Counts number of key-value entries in every bucket
+        # item_count = 0
+        # for bucket in self.buckets:
+        #     item_count += bucket.length()
+        # return item_count
 
     def contains(self, key):
         """ Returns True if hash table contains given key, or False.\n
         BEST CASE = O(1) --> Target is first item in table.\n
         WORST CASE = O(n) --> Target is last item in table. (Full iteration.) """
-        # Find the bucket the given key belongs in
+        # Finds bucket in which given key belongs
         index = self._bucket_index(key)
         bucket = self.buckets[index]
-        # Check if an entry with the given key exists in that bucket
+        # Checks if entry with given key exists in given bucket
         entry = bucket.find(lambda key_value: key_value[0] == key)
-        return entry is not None  # True or False
+        return entry is not None
 
     def get(self, key):
-        """Return the value associated with the given key, or raise KeyError.
+        """ Returns value associated with given key, or raises KeyError.
         BEST CASE = O(1) --> Target is first item in table.\n
         WORST CASE = O(n) --> Target is last item in table. (Full iteration.) """
-        # Find the bucket the given key belongs in
+        # Finds bucket in which given key belongs
         index = self._bucket_index(key)
         bucket = self.buckets[index]
-        # Find the entry with the given key in that bucket, if one exists
+        # Finds entry with given key in given bucket, if one exists
         entry = bucket.find(lambda key_value: key_value[0] == key)
-        if entry is not None:  # Found
-            # Return the given key's associated value
+        if entry is not None:
+            # Returns given key's associated value
             assert isinstance(entry, tuple)
             assert len(entry) == 2
             return entry[1]
-        else:  # Not found
+        else:
             raise KeyError("\n\nKEY NOT FOUND: {}\n".format(key))
 
     def set(self, key, value):
