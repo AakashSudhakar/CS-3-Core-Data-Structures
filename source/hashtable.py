@@ -59,7 +59,7 @@ class HashTable(object):
 
     def length(self):
         """ Returns number of key-value entries by traversing buckets.\n
-        BEST/WORST CASE = O(m * n) --> Iterate through all items in old and new tables. """
+        BEST/WORST CASE = O(n) --> Iterate through all items in table. """
         return sum(bucket.length() for bucket in self.buckets)
         # Counts number of key-value entries in every bucket
         # item_count = 0
@@ -128,6 +128,8 @@ class HashTable(object):
         if entry is not None:
             bucket.delete(entry)            # Removes key-value entry from bucket
             self.size -= 1                  # Decrements size
+            if self.load_factor < 0.25:
+                self._resize(0)
         else:
             raise KeyError("\n\nKEY NOT FOUND: {}\n".format(key))
 
@@ -143,12 +145,11 @@ class HashTable(object):
         elif new_size is 0:
             new_size = len(self.buckets) / 2
         # Temporarily holding array for current hash table items
-        current_key_value_entries = self.items()
-        # Creates new parameters for resized hash table (more buckets)       
-        self.buckets = [LinkedList() for iterator in range(new_size)]
-        self.size = 0
+        old_table_data = self.items()
+        # Call initializer to reset Hash Table size as doubled size      
+        self.__init__(new_size)
         # Places items back into buckets using hashing set method
-        for key, value in current_key_value_entries:
+        for key, value in old_table_data:
             self.set(key, value)
 
 
