@@ -154,10 +154,11 @@ class LinkedList(object):
         node = self.head                            # Start at head node (constant time)
 
         # Loop until the node is None, which is one node too far past the tail
-        while node:                                 # Up to n iterations
+        while node is not None:                                 # Up to n iterations
             if quality(node.data):                  # Check if node data matches quality (constant time)
                 return node.data
-            node = node.next                        # Skips to next node (constant time)
+            else:
+                node = node.next                        # Skips to next node (constant time)
         return None
 
     def replace(self, old_item, new_item):

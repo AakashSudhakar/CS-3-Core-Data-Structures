@@ -1,5 +1,5 @@
 #!python
-
+# TODO: Pull from repo immediately!!
 
 class BinaryTreeNode(object):
 
@@ -19,21 +19,22 @@ class BinaryTreeNode(object):
     def is_branch(self):
         """ Returns True if node is branch (has at least one child). """
         return any((self.left, self.right))
-        # return self.left is not None or self.right is not None
 
     def height(self):
         """ Returns height of node (number of edges on longest
         downward path from node to descendant leaf node).\n
         BEST CASE = O(1) => Tree is stump.\n
         WORST CASE = O(log(n)) => Traverses through length of tree. """
-        # TODO: Check if left child has a value and if so calculate its height
-        if self.left is not None:
-            left_height = self.height(self.left)
-        # TODO: Check if right child has a value and if so calculate its height
-        if self.right is not None:
-            right_height = self.height(self.right)
-        # Return one more than the greater of the left height and right height
-        return max(left_height, right_height) + 1
+        if self.is_leaf():
+            return 0
+
+        left_height, right_height = 0, 0
+        if self.left is not None:                       # Checks if left child has value
+            # TODO: Try self.left.height and self.right.height
+            left_height = self.left.height()        # Calculates node height
+        if self.right is not None:                      # Checks if right child has value
+            right_height = self.right.height()      # Calculates node height
+        return max(left_height, right_height) + 1       # Returns one plus max of L/R height
 
 class BinarySearchTree(object):
 
@@ -55,23 +56,25 @@ class BinarySearchTree(object):
     def height(self):
         """ Returns height of tree (number of edges on longest
         downward path from tree's root node to descendant leaf node).\n
-        BEST CASE = O(?) => ???\n
-        WORST CASE = O(?) => ??? """
-        if self.root is not None:               # Checks if root node has value
-            return height(self.root)            # Returns root node's height
+        BEST CASE = O(1) => Tree is stump.\n
+        WORST CASE = O(log(n)) => Traverses through length of tree. """
+        if self.root is not None:                       # Checks if root node has value
+            return self.root.height()                   # Returns root node's height
+        else:
+            return 0
 
     def contains(self, item):
         """ Returns True if binary search tree contains given item.\n
-        BEST CASE = O(?) => ???\n
-        WORST CASE = O(?) => ??? """
+        BEST CASE = O(1) => Tree is stump.\n
+        WORST CASE = O(log(n)) => Traverses through length of tree. """
         node = self._find_node(item)            # Finds node with given item, if any
         return node is not None                 # Returns True if node was found, else False
 
     def search(self, item):
         """ Returns item in binary search tree matching given item,
         or None if given item is not found.\n
-        BEST CASE = O(?) => ???\n
-        WORST CASE = O(?) => ??? """
+        BEST CASE = O(1) => Tree is stump.\n
+        WORST CASE = O(log(n)) => Traverses through length of tree. """
         node = self._find_node(item)
         if node is not None:
             return node.data                    # Returns node's data if exists, else None
@@ -92,45 +95,47 @@ class BinarySearchTree(object):
 
         if item < parent.data:                  # Checks if given item is less than parent
             parent.left = BinaryTreeNode(item)  # Creates new node as parent's left child
-        elif item >= parent.data:               # Checks if given item is greater than parent
+        elif item > parent.data:               # Checks if given item is greater than parent
             parent.right = BinaryTreeNode(item) # Creates new node as parent's right child
         self.size += 1
 
-    # def delete(self, item):
-        # """ Deletes given item in node in binary search tree.\n
-        # BEST CASE = O(1) => Tree is stump.\n
-        # WORST CASE = O(log(n)) => Traverses through depth of tree. """
+    '''
+    def delete(self, item):
+        """ Deletes given item in node in binary search tree.\n
+        BEST CASE = O(1) => Tree is stump.\n
+        WORST CASE = O(log(n)) => Traverses through depth of tree. """
+        parent, node = self._find_parent_node(item), self._find_node(item)
+        if node.is_leaf():                      # Checks if node to delete has no children
+            parent = None                       # Sets parent pointer to None
+            del node.data                       # Deletes node's data
+        elif node.is_branch():                  # Checks if node to delete has children
+            if node.left is not None:
+
+
+        # 1st case: Node to be removed has no children (least complex)
+        # Find item's node and parent
         # parent, node = self._find_parent_node(item), self._find_node(item)
-        # if node.is_leaf():                      # Checks if node to delete has no children
-        #     parent = None                       # Sets parent pointer to None
-        #     del node.data                       # Deletes node's data
-        # elif node.is_branch():                  # Checks if node to delete has children
-        #     if node.left is not None:
+        # Set parent pointer to null
+        parent = None
+        # Use <del> keyword on node's data (???)
 
-
-        # # 1st case: Node to be removed has no children (least complex)
-        # # Find item's node and parent
-        # # parent, node = self._find_parent_node(item), self._find_node(item)
-        # # Set parent pointer to null
-        # parent = None
-        # # Use <del> keyword on node's data (???)
-
-        # # 2nd case: Node to be removed has one child
-        # # 3rd case: Node to be removed has two children (most complex)
-        # return
+        # 2nd case: Node to be removed has one child
+        # 3rd case: Node to be removed has two children (most complex)
+        return
+    '''
 
     def _find_node(self, item):
         """ Returns node containing given item in binary search tree,
         or None if given item is not found.\n
-        BEST CASE = O(?) => ???\n
-        WORST CASE = O(?) => ??? """
+        BEST CASE = O(1) => Tree is stump.\n
+        WORST CASE = O(log(n)) => Traverses through depth of tree. """
         node = self.root
         while node is not None:                 # Iterates from root to closest leaf node
             if item == node.data:               # Checks if item matches node's data
                 return node                     # Returns found node
             elif item < node.data:              # Checks if item is less than node's data
                 node = node.left                # Descends to node's left child
-            elif item >= node.data:             # Checks if item is greater than node's data
+            elif item > node.data:              # Checks if item is greater than node's data
                 node = node.right               # Descends to node's right child
         return None                             # Else returns None if item not found in tree
 
@@ -138,8 +143,8 @@ class BinarySearchTree(object):
         """ Returns parent node of node containing given item
         (or parent node of where given item would be if inserted)
         in tree, or None if tree is empty or has only root node.\n
-        BEST CASE = O(?) => ???\n
-        WORST CASE = O(?) => ??? """
+        BEST CASE = O(1) => Tree is stump.\n
+        WORST CASE = O(log(n)) => Traverses through depth of tree. """
         parent, node = None, self.root
         while node is not None:                 # Iterates from root to closest leaf node
             if item == node.data:               # Checks if item matches node's data
@@ -147,12 +152,10 @@ class BinarySearchTree(object):
             elif item < node.data:              # Checks if item is less than node's data
                 parent = node                   # Updates parent
                 node = node.left                # Descends to node's left child
-            elif item >= node.data:             # Checks if item is greater than node's data
+            elif item > node.data:             # Checks if item is greater than node's data
                 parent = node                   # Updates parent
                 node = node.right               # Descends to node's right child
         return parent                           # Else returns None if item not found in tree
-
-    # This space intentionally left blank (please do not delete this comment)
 
     # def items_in_order(self):
     #     """ Returns in-order list of all items in binary search tree. """
