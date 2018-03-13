@@ -95,7 +95,7 @@ class BinarySearchTree(object):
 
         if item < parent.data:                  # Checks if given item is less than parent
             parent.left = BinaryTreeNode(item)  # Creates new node as parent's left child
-        elif item > parent.data:               # Checks if given item is greater than parent
+        elif item > parent.data:                # Checks if given item is greater than parent
             parent.right = BinaryTreeNode(item) # Creates new node as parent's right child
         self.size += 1
 
