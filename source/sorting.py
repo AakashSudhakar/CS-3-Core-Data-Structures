@@ -27,7 +27,6 @@ def _validate_list_of_items(items):
     assert isinstance(items, list)                  # Asserts that items object is list
     return len(items)                               # Defines length of item array
 
-
 def bubble_sort(items, reverse=False):
     """ Sorts given items by swapping adjacent items that are out of order, and
     repeating until all items are in sorted order.\n
@@ -106,19 +105,17 @@ def selection_sort(items, reverse=False):
                     local_minimum, items[inner_iterator], items[outer_iterator] = items[inner_iterator], items[outer_iterator], local_minimum
         return items
 
-def insertion_sort(items, with_binary_search=False):
+def insertion_sort(items, with_bin=False):
     """ Sorts given items by taking first unsorted item, inserting it in sorted
     order in front of items, and repeating until all items are in order.\n
     RUNTIME (BEST):     O(1) -> Array is single or empty.\t
     RUNTIME (WORST):    O(n^2) -> Iterate through array length proportionally by array length.\t
     MEMORY:             O(n) -> Rewrite every value in array."""
     LENGTH_ITEMS = _validate_list_of_items(items)   # Validates items object type and returns list length
-    if LENGTH_ITEMS < 2:                            # Checks if array has single or no values
-        return items                                # If True, returns items as array is naturally sorted
+    # NOTE: Base case where LENGTH_ITEMS = 0, 1 are covered naturally by range()
 
-    if not with_binary_search:
-        # Enumerates through item array
-        for index, item in enumerate(items):
+    if not with_bin:
+        for index, item in enumerate(items):        # Enumerates through item array
             position = index
             # Checks if current position is positive and current item is out-of-order
             while position > 0 and item < items[position - 1]:
@@ -129,7 +126,15 @@ def insertion_sort(items, with_binary_search=False):
             items[position] = item
         return items
     else:
-        # TODO: Implement Insertion Sort variation with Binary Search here. 
+        for index, item in enumerate(items):        # Enumerates through item array
+            lower_bound, upper_bound = 0, index     # Defines lower and upper boundaries
+            while upper_bound > lower_bound:
+                bisector = (lower_bound + upper_bound) // 2
+                if items[bisector] < item:
+                    lower_bound = bisector + 1
+                else:
+                    upper_bound = bisector
+            items[:] = items[:lower_bound] + [item] + items[lower_bound:index] + items[index + 1:]
         return items
 
     # TODO: Implement reverse order sorting algorithm. 
