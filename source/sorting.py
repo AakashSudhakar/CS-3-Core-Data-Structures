@@ -157,9 +157,14 @@ def library_sort(items):
 
     # Predefines lower and upper bounds for bitwise comparator constants
     lesser_bitwise_comparator, greater_bitwise_comparator = 1, 2
+
+    # Iterates over bitwise length of original array
     for outer_iterator in range(BITLENGTH_ITEMS):
+        # Shifts bits of comparator constants for each iteration
         lesser_bitwise_comparator <<= 1
         greater_bitwise_comparator <<= 1
+
+        # Iterates over inner bitwise range for each item
         for inner_iterator in range(lesser_bitwise_comparator, min(greater_bitwise_comparator, LENGTH_ITEMS + 1)):
             gapped_max_position = 2 * inner_iterator - 1
             gapped_item = gapped_insertions[gapped_max_position]
@@ -230,12 +235,10 @@ def shell_sort(items):
                 position -= midpoint
             items[position] = item
         midpoint = (midpoint / 2) if (midpoint / 2) else (0 if midpoint == 1 else 1)
-
     return items
 
-
 def merge(items1, items2):
-    """Merge given lists of items, each assumed to already be in sorted order,
+    """ Merge given lists of items, each assumed to already be in sorted order,
     and return a new list containing all items in sorted order.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
