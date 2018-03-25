@@ -52,8 +52,8 @@ def bubble_sort(items, reverse=False):
 
 def cocktail_shaker_sort(items):
     """ Sorts given items by swapping adjacent items that are out of order, and
-    repeating until all items are in sorted order. Similar to Bubble Sort except
-    bounces back and forth across array.\n
+    repeating until all items are in sorted order.\t
+    Similar to Bubble Sort except bounces back and forth across array.\n
     RUNTIME (BEST):     O(n) -> Iterate through sorted array once.\t
     RUNTIME (WORST):    O(n^2) -> Iterate through array length proportionally by array length.\t
     MEMORY:             O(1) -> Doesn't create new memory but rewrites current memory. """
@@ -136,20 +136,82 @@ def insertion_sort(items, with_bin=False):
                     upper_bound = bisector
             items[:] = items[:lower_bound] + [item] + items[lower_bound:index] + items[index + 1:]
         return items
-
     # TODO: Implement reverse order sorting algorithm. 
 
+# NOTE: What have I done?!
 def library_sort(items):
-    """ Sorts.\n
-    RUNTIME (BEST):     O(?)\t
-    RUNTIME (WORST):    O(?)\t
-    MEMORY:             O(?) """
+    """ (Gapped Insertion Sort) Sorts given items by taking first unsorted item, inserting it in sorted
+    order in front of items, and repeating until all items are in order.\t
+    Similar to Insertion Sort but with gaps (bitwise) in array to accelerate subsequent insertions.\n
+    RUNTIME (BEST):     O(n)\t
+    RUNTIME (WORST):    O(n * log(n))\t
+    MEMORY:             O(trash) """
     LENGTH_ITEMS = _validate_list_of_items(items)   # Validates items object type and returns list length
-    if LENGTH_ITEMS < 2:                            # Checks if array has single or no values
-        return items                                # If True, returns items as array is naturally sorted
+    # NOTE: Base case where LENGTH_ITEMS = 0, 1 are covered naturally by range()
+    gapped_insertions = [None] * (LENGTH_ITEMS << 1)
+    BITLENGTH_ITEMS = LENGTH_ITEMS.bit_length()     # Initializes bitwise lengths for advanced gapped item manipulation
 
-    # TODO: Implement Library Sorting algorithm here. 
-    return items
+    # Produces list of gaps that hold preset gap indices over original data for gapped insertions
+    for iterator in range(LENGTH_ITEMS):
+        gapped_insertions[2 * iterator + 1] = gap_list[iterator]
+
+    # Predefines lower and upper bounds for bitwise comparator constants
+    lesser_bitwise_comparator, greater_bitwise_comparator = 1, 2
+    for outer_iterator in range(BITLENGTH_ITEMS):
+        lesser_bitwise_comparator <<= 1
+        greater_bitwise_comparator <<= 1
+        for inner_iterator in range(lesser_bitwise_comparator, min(greater_bitwise_comparator, LENGTH_ITEMS + 1)):
+            gapped_max_position = 2 * inner_iterator - 1
+            gapped_item = gapped_insertions[gapped_max_position]
+            lower_bound, upper_bound = 0, gapped_max_position
+
+            while upper_bound - lower_bound > 1:
+                shifted_boundary_range = (lower_bound + upper_bound) >> 1
+
+                if gapped_insertions[shifted_boundary_range] != None:
+                    if gapped_insertions[shifted_boundary_range] < gapped_item:
+                        lower_bound = shifted_boundary_range
+                    else:
+                        upper_bound = shifted_boundary_range
+                else:
+                    shifted_lower_bound, shifted_upper_bound = shifted_boundary_range - 1, shifted_boundary_range + 1
+                    while gapped_insertions[shifted_lower_bound] == None:
+                        shifted_lower_bound -= 1
+                    while gapped_insertions[shifted_upper_bound] == None:
+                        shifted_upper_bound += 1
+                    if gapped_insertions[shifted_lower_bound] > gapped_item:
+                        upper_bound = shifted_lower_bound
+                    elif gapped_insertions[shifted_upper_bound] < gapped_item:
+                        lower_bound = shifted_upper_bound
+                    else:
+                        lower_bound, upper_bound = shifted_lower_bound, shifted_upper_bound
+                        break
+
+            if upper_bound - lower_bound > 1:
+                gapped_insertions[ (lower_bound + upper_bound) >> 1 ] = gapped_item
+            else:
+                if gapped_insertions[lower_bound] != None:
+                    if gapped_insertions[lower_bound] > gapped_item:
+                        upper_bound = lower_bound
+
+                    while gapped_item != None:
+                        gapped_insertions[upper_bound], gapped_item = gapped_item, gapped_insertions[upper_bound]
+                    upper_bound += 1
+                else:
+                    gapped_insertions[lower_bound] = gapped_item
+            gapped_insertions[gapped_max_position] = None
+
+        if greater_bitwise_comparator > LENGTH_ITEMS:
+            break
+        if outer_iterator < BITLENGTH_ITEMS - 1:
+            gapped_item = gapped_max_position
+
+            while gapped_item >= 0:
+                if gapped_insertions[gapped_item] != None:
+                    gapped_insertions[gapped_item], gapped_insertions[gapped_max_position] = None, gapped_insertions[gapped_item]
+                    gapped_max_position -= 2
+                gapped_item -= 1
+    return [item for item in gapped_insertions if item != None]
 
 def shell_sort(items):
     """ Sorts.\n
@@ -157,8 +219,7 @@ def shell_sort(items):
     RUNTIME (WORST):    O(?)\t
     MEMORY:             O(?) """
     LENGTH_ITEMS = _validate_list_of_items(items)   # Validates items object type and returns list length
-    if LENGTH_ITEMS < 2:                            # Checks if array has single or no values
-        return items                                # If True, returns items as array is naturally sorted
+    # NOTE: Base case where LENGTH_ITEMS = 0, 1 are covered naturally by range()
 
     # TODO: Implement Shell Sorting algorithm here. 
     return items
