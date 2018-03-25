@@ -220,8 +220,17 @@ def shell_sort(items):
     MEMORY:             O(?) """
     LENGTH_ITEMS = _validate_list_of_items(items)   # Validates items object type and returns list length
     # NOTE: Base case where LENGTH_ITEMS = 0, 1 are covered naturally by range()
+    midpoint = LENGTH_ITEMS / 2
 
-    # TODO: Implement Shell Sorting algorithm here. 
+    while midpoint:
+        for index, item in enumerate(items):
+            position = index
+            while position >= midpoint and items[position - midpoint] > item:
+                items[position] = items[position - midpoint]
+                position -= midpoint
+            items[position] = item
+        midpoint = (midpoint / 2) if (midpoint / 2) else (0 if midpoint == 1 else 1)
+
     return items
 
 
