@@ -56,9 +56,9 @@ def bubble_sort(items, reverse=False):
         """ Sorts given items by swapping adjacent items that are out of order, and
         repeating until all items are in sorted order. Similar to Bubble Sort except
         bounces back and forth across array.\n
-        RUNTIME (BEST):     O(?)\t
-        RUNTIME (WORST):    O(?)\t
-        MEMORY:             O(?) """
+        RUNTIME (BEST):     O(n) -> Iterate through sorted array once.\t
+        RUNTIME (WORST):    O(n^2) -> Iterate through array length proportionally by array length.\t
+        MEMORY:             O(1) -> Doesn't create new memory but rewrites current memory. """
         assert isinstance(reverse, bool)                # Asserts that reverse parameter is boolean
         LENGTH_ITEMS = _validate_list_of_items(items)   # Validates items object type and returns list length
         # NOTE: Base case where LENGTH_ITEMS = 0, 1 are covered naturally by range()
@@ -66,14 +66,20 @@ def bubble_sort(items, reverse=False):
         # Loops through all items in array in reverse order
         for outer_iterator in range(LENGTH_ITEMS, 0, -1):
             is_swapped = False                          # Creates parameter to track swapped items
+            
+            # Checks each item against rest of array in reverse order and swaps if out-of-order
             for inner_iterator in range(outer_iterator, 0, -1):
                 if items[inner_iterator] < items[inner_iterator - 1]:
                     items[inner_iterator], items[inner_iterator - 1] = items[inner_iterator - 1], items[inner_iterator]
                     is_swapped = True
+
+            # Checks each item against rest of array in forward order and swaps if out-of-order
             for inner_iterator in range(outer_iterator):
                 if items[inner_iterator] > items[inner_iterator + 1]:
                     items[inner_iterator], items[inner_iterator + 1] = items[inner_iterator + 1], items[inner_iterator]
                     is_swapped = True
+
+            # Returns items when no swapping options left
             if not is_swapped:
                 return items
 
