@@ -93,7 +93,7 @@ class HashTable(object):
             assert len(entry) == 2
             return entry[1]
         else:
-            raise KeyError("\n\nKEY NOT FOUND: {}\n".format(key))
+            return None
 
     def set(self, key, value):
         """ Inserts or updates given key with associated value.\n

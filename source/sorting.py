@@ -1,40 +1,153 @@
 #!python
 
+from timeit import timeit
 
-def is_sorted(items):
-    """Return a boolean indicating whether given items are in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Check that all adjacent items are in order, return early if not
+def is_sorted(items, reverse=False):
+    """ Returns boolean indicating whether given items are in sorted order.\n
+    RUNTIME (BEST):     O(1) -> Single or empty array.\t
+    RUNTIME (WORST):    O(n) -> Iterates across entire array.\t
+    MEMORY:             O(1) -> Creates single element to store length."""
+    assert isinstance(reverse, bool)                # Asserts that reverse parameter is boolean
+    LENGTH_ITEMS = len(items)                       # Defines length of item array
+    # NOTE: Base case where LENGTH_ITEMS = 0, 1 are covered naturally by range()
 
+    if reverse is False:                            # Checks if list should be forward sorted
+        for index in range(1, LENGTH_ITEMS):        # Loops through length of array
+            if items[index - 1] > items[index]:     # Checks if previous item is greater than current item
+                return False                        # Returns False if current condition is True, else returns True
+        return True
+    else:                                           # Checks if list should be reverse sorted
+        for index in range(1, LENGTH_ITEMS):        # Loops through length of array
+            if items[index] < items[index + 1]:     # Checks if current item is less than next item
+                return False                        # Returns False if current condition is True, else returns True
+        return True
 
-def bubble_sort(items):
-    """Sort given items by swapping adjacent items that are out of order, and
-    repeating until all items are in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Repeat until all items are in sorted order
-    # TODO: Swap adjacent items that are out of order
+def _validate_list_of_items(items):
+    """ Helper function that validates type of items object and returns object array length. """
+    assert isinstance(items, list)                  # Asserts that items object is list
+    return len(items)                               # Defines length of item array
 
+def bubble_sort(items, reverse=False):
+    """ Sorts given items by swapping adjacent items that are out of order, and
+    repeating until all items are in sorted order.\n
+    RUNTIME (BEST):     O(n) -> Iterate through sorted array once.\t
+    RUNTIME (WORST):    O(n^2) -> Iterate through array length proportionally by array length.\t
+    MEMORY:             O(1) -> Doesn't create new memory but rewrites current memory. """
+    assert isinstance(reverse, bool)                # Asserts that reverse parameter is boolean
+    LENGTH_ITEMS = _validate_list_of_items(items)   # Validates items object type and returns list length
+    # NOTE: Base case where LENGTH_ITEMS = 0, 1 are covered naturally by range()
+
+    if reverse is False:                            # Checks if list should be forward sorted
+        for outer_iterator in range(LENGTH_ITEMS):  # Loops through array and checks each item against array
+            for inner_iterator in range(outer_iterator, LENGTH_ITEMS):
+                # If items are out-of-order, swaps them and continues
+                if items[inner_iterator] < items[outer_iterator]:
+                    items[inner_iterator], items[outer_iterator] = items[outer_iterator], items[inner_iterator]
+        return items
+    else:                                           # Checks if list should be reverse sorted
+        for outer_iterator in range(LENGTH_ITEMS):  # Loops through array and checks each item against array
+            for inner_iterator in range(outer_iterator, LENGTH_ITEMS):
+                # If items are out-of-order, swaps them and continues
+                if items[inner_iterator] >= items[outer_iterator]:
+                    items[inner_iterator], items[outer_iterator] = items[outer_iterator], items[inner_iterator]
+        return items
+
+    def cocktail_shaker_sort(items, reverse=False):
+        """ Sorts given items by swapping adjacent items that are out of order, and
+        repeating until all items are in sorted order. Similar to Bubble Sort except
+        bounces back and forth across array.\n
+        RUNTIME (BEST):     O(?)\t
+        RUNTIME (WORST):    O(?)\t
+        MEMORY:             O(?) """
+        assert isinstance(reverse, bool)                # Asserts that reverse parameter is boolean
+        LENGTH_ITEMS = _validate_list_of_items(items)   # Validates items object type and returns list length
+        # NOTE: Base case where LENGTH_ITEMS = 0, 1 are covered naturally by range()
+
+        # Loops through all items in array in reverse order
+        for outer_iterator in range(LENGTH_ITEMS, 0, -1):
+            is_swapped = False                          # Creates parameter to track swapped items
+            for inner_iterator in range(outer_iterator, 0, -1):
+                if items[inner_iterator] < items[inner_iterator - 1]:
+                    items[inner_iterator], items[inner_iterator - 1] = items[inner_iterator - 1], items[inner_iterator]
+                    is_swapped = True
+            for inner_iterator in range(outer_iterator):
+                if items[inner_iterator] > items[inner_iterator + 1]:
+                    items[inner_iterator], items[inner_iterator + 1] = items[inner_iterator + 1], items[inner_iterator]
+                    is_swapped = True
+            if not is_swapped:
+                return items
 
 def selection_sort(items):
-    """Sort given items by finding minimum item, swapping it with first
-    unsorted item, and repeating until all items are in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Repeat until all items are in sorted order
-    # TODO: Find minimum item in unsorted items
-    # TODO: Swap it with first unsorted item
+    """ Sorts given items by finding minimum item, swapping it with first
+    unsorted item, and repeating until all items are in sorted order.\n
+    RUNTIME (BEST):     O(1) -> Array is single or empty.\t
+    RUNTIME (WORST):    O(n^2) -> Iterate through array length proportionally by array length.\t
+    MEMORY:             O(n) -> Rewrite every value in array."""
+    LENGTH_ITEMS = _validate_list_of_items(items)   # Validates items object type and returns list length
+    # NOTE: Base case where LENGTH_ITEMS = 0, 1 are covered naturally by range()
+
+    # Loops through item array checking for local minima
+    for outer_iterator in range(LENGTH_ITEMS):
+        for inner_iterator in range(outer_iterator, LENGTH_ITEMS):
+            # If unsorted minimum value is detected, swap with first unsorted item and continue iterating
+            if items[inner_iterator] < items[outer_iterator]:
+                local_minimum, items[inner_iterator], items[outer_iterator] = items[inner_iterator], items[outer_iterator], local_minimum
+    return items
+
+    # TODO: Implement reverse order sorting algorithm. 
 
 
-def insertion_sort(items):
-    """Sort given items by taking first unsorted item, inserting it in sorted
-    order in front of items, and repeating until all items are in order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Repeat until all items are in sorted order
-    # TODO: Take first unsorted item
-    # TODO: Insert it in sorted order in front of items
+def insertion_sort(items, with_binary_search=False):
+    """ Sorts given items by taking first unsorted item, inserting it in sorted
+    order in front of items, and repeating until all items are in order.\n
+    RUNTIME (BEST):     O(1) -> Array is single or empty.\t
+    RUNTIME (WORST):    O(n^2) -> Iterate through array length proportionally by array length.\t
+    MEMORY:             O(n) -> Rewrite every value in array."""
+    LENGTH_ITEMS = _validate_list_of_items(items)   # Validates items object type and returns list length
+    if LENGTH_ITEMS < 2:                            # Checks if array has single or no values
+        return items                                # If True, returns items as array is naturally sorted
+
+    if with_binary_search is False:
+        # Enumerates through item array
+        for index, item in enumerate(items):
+            position = index
+            # Checks if current position is positive and current item is out-of-order
+            while position > 0 and item < items[position - 1]:
+                # If True, swap item with previous item and decrement position
+                items[position] = items[position - 1]
+                position -= 1
+            # Redefines current position in array to current item
+            items[position] = item
+        return items
+    else:
+        # TODO: Implement Insertion Sort variation with Binary Search here. 
+        return items
+
+    # TODO: Implement reverse order sorting algorithm. 
+
+def library_sort(items):
+    """ Sorts.\n
+    RUNTIME (BEST):     O(?)\t
+    RUNTIME (WORST):    O(?)\t
+    MEMORY:             O(?) """
+    LENGTH_ITEMS = _validate_list_of_items(items)   # Validates items object type and returns list length
+    if LENGTH_ITEMS < 2:                            # Checks if array has single or no values
+        return items                                # If True, returns items as array is naturally sorted
+
+    # TODO: Implement Library Sorting algorithm here. 
+    return items
+
+def shell_sort(items):
+    """ Sorts.\n
+    RUNTIME (BEST):     O(?)\t
+    RUNTIME (WORST):    O(?)\t
+    MEMORY:             O(?) """
+    LENGTH_ITEMS = _validate_list_of_items(items)   # Validates items object type and returns list length
+    if LENGTH_ITEMS < 2:                            # Checks if array has single or no values
+        return items                                # If True, returns items as array is naturally sorted
+
+    # TODO: Implement Shell Sorting algorithm here. 
+    return items
 
 
 def merge(items1, items2):

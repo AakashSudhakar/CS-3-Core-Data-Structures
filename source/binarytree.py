@@ -180,7 +180,7 @@ class BinarySearchTree(object):
                 parent = node                   # Updates parent
                 node = node.right               # Descends to node's right child
         return parent                           # Else returns None if item not found in tree
-
+        
     def _find_parent_node_recursive(self, item, node, parent=None):
         """ Returns parent node of node containing given item
         (or parent node of where given item would be if inserted)
