@@ -267,11 +267,11 @@ def merge(items1, items2):
     # Checks if first list is non-empty
     if iterator1 != LENGTH_ITEMS1:
         # Adds remaining elements from first list to merged list
-        merged_list.extend(items1[iterator1:LENGTH_ITEMS1])
+        merged_list.extend(items1[iterator1:])
     # Checks if second list is non-empty
     else:
         # Adds remaining elements from second list to merged list
-        merged_list.extend(items2[iterator2:LENGTH_ITEMS2])
+        merged_list.extend(items2[iterator2:])
     return merged_list
 
 
