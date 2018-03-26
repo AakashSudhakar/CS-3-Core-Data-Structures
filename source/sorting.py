@@ -238,8 +238,8 @@ def shell_sort(items):
     return items
 
 def merge(items1, items2):
-    """ Merge given lists of items, each assumed to already be in sorted order,
-    and return a new list containing all items in sorted order.
+    """ Merges given lists of items, each assumed to already be in sorted order,
+    and returns new list containing all items in sorted order.\n
     RUNTIME (BEST):     O(1) -> Both lists contain one item. \t
     RUNTIME (WORST):    O(max(N, M)) -> Iterates over maximum length between both lists. \t
     MEMORY:             O(N + M) -> Creates new list containing all elements of both lists. """
@@ -276,28 +276,38 @@ def merge(items1, items2):
 
 
 def split_sort_merge(items):
-    """Sort given items by splitting list into two approximately equal halves,
+    """ Sorts given items by splitting list into two approximately equal halves,
     sorting each with an iterative sorting algorithm, and merging results into
-    a list in sorted order.
-    RUNTIME (BEST):     O(?)\t
-    RUNTIME (WORST):    O(?)\t
-    MEMORY:             O(?) """
-    # TODO: Split items list into approximately equal halves
-    # TODO: Sort each half using any other sorting algorithm
-    # TODO: Merge sorted halves into one list in sorted order
+    list in sorted order.\n
+    RUNTIME (BEST):     O(1) -> Array is single or empty.\t
+    RUNTIME (WORST):    O(n^2) -> Iterate through array length proportionally by array length.\t
+    MEMORY:             O(n) -> Rewrite every value in array."""
+    LENGTH_ITEMS = len(items)                       # Initializes length of list
+    bisector = LENGTH_ITEMS // 2                    # Defines approximate midpoint of list
 
+    # Defines left and right split halves by midpoint bisection
+    left_half, right_half = items[:bisector], items[bisector:]
+    
+    # Sorts both halves by passing halves through choice sorting algorithm (Binary Insertion Sort)
+    sorted_left_half, sorted_right_half = insertion_sort(left_half, True), insertion_sort(right_half, True)
+    return merge(sorted_left_half, sorted_right_half)
 
 def merge_sort(items):
-    """Sort given items by splitting list into two approximately equal halves,
-    sorting each recursively, and merging results into a list in sorted order.
-    RUNTIME (BEST):     O(?)\t
-    RUNTIME (WORST):    O(?)\t
-    MEMORY:             O(?) """
-    # TODO: Check if list is so small it's already sorted (base case)
-    # TODO: Split items list into approximately equal halves
-    # TODO: Sort each half by recursively calling merge sort
-    # TODO: Merge sorted halves into one list in sorted order
+    """ Sorts given items by splitting list into two approximately equal halves,
+    sorting each recursively, and merging results into list in sorted order.\n
+    RUNTIME (BEST):     O(1) -> List contains one item. \t
+    RUNTIME (WORST):    O(n * log(n)) -> Logarithmically sorts all items per item in list.\t
+    MEMORY:             O(n) -> Recursively splits, then merges list of n items. """
+    LENGTH_ITEMS = len(items)                       # Initializes length of list
+    return items if LENGTH_ITEMS == 1               # Recursion endgame when split list contains one item
+    bisector = LENGTH_ITEMS // 2                    # Defines approximate midpoint of list
 
+    # Defines left and right split halves by midpoint bisection
+    left_half, right_half = items[:bisector], items[bisector:]
+
+    # Recursively sorts both halves by passing halves through merge sorting algorithm (logarithmic reduction)
+    sorted_left_half, sorted_right_half = merge_sort(left_half), merge_sort(right_half)
+    return merge(sorted_left_half, sorted_right_half)
 
 def partition(items, low, high):
     """Return index `p` after in-place partitioning given items in range
