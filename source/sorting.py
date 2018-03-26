@@ -300,7 +300,8 @@ def merge_sort(items):
     MEMORY:             O(n) -> Recursively splits, then merges list of n items. """
     # TODO: Consider using NumPy arrays to reduce memory costs of copying references with slices
     LENGTH_ITEMS = len(items)                       # Initializes length of list
-    return items if LENGTH_ITEMS == 1               # Recursion endgame when split list contains one item
+    if LENGTH_ITEMS == 1:                           # Recursion endgame when split list contains one item
+        return items
     bisector = LENGTH_ITEMS // 2                    # Defines approximate midpoint of list
 
     # Defines left and right split halves by midpoint bisection
@@ -420,9 +421,9 @@ def test_sorting(sort=bubble_sort, num_items=20, max_value=50):
     # Change this sort variable to the sorting algorithm you want to test
     # sort = bubble_sort
     print('Sorting items with {}(items)'.format(sort.__name__))
-    sort(items)
-    print('Sorted items:  {!r}'.format(items))
-    print('Sorted order?  {!r}'.format(is_sorted(items)))
+    sorted_items = sort(items)
+    print('Sorted items:  {!r}'.format(sorted_items))
+    print('Sorted order?  {!r}'.format(is_sorted(sorted_items)))
 
 
 def main():
