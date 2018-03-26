@@ -348,16 +348,30 @@ def quick_sort(items, low=None, high=None):
 
 
 def counting_sort(numbers):
-    """Sort given numbers (integers) by counting occurrences of each number,
-    then looping over counts and copying that many numbers into output list.
+    # FIXME: Improve this to mutate input instead of creating new output list
+    """ Sorts given numbers (integers) by counting occurrences of each number,
+    then looping over counts and copying that many numbers into output list.\n
     RUNTIME (BEST):     O(?)\t
     RUNTIME (WORST):    O(?)\t
     MEMORY:             O(?) """
-    # TODO: Find range of given numbers (minimum and maximum integer values)
-    # TODO: Create list of counts with a slot for each number in input range
-    # TODO: Loop over given numbers and increment each number's count
-    # TODO: Loop over counts and append that many numbers into output list
-    # FIXME: Improve this to mutate input instead of creating new output list
+    # Initializes absolute maxima and minima of numerical list and produces empty counts array
+    absolute_maximum, absolute_minimum = max(numbers), min(numbers)
+    histocounts = [0] * (absolute_maximum - absolute_minimum + 1)
+
+    for number in numbers:                          # Iterates across list of numbers
+        histocounts[number - absolute_minimum] += 1 # Creates histogram of number occurrences
+
+    sorted_numbers = list()                         # Initializes sorted numbers array
+
+    # Iterates across range of possible numbers in list
+    for outer_iterator in range(absolute_minimum, absolute_maximum + 1):
+        # Checks if counts position has at least one occurrence
+        if histocounts[outer_iterator - absolute_minimum] > 0:
+            # Iterates across range of occurrences of current number in original list
+            for inner_iterator in range(histocounts[outer_iterator - absolute_minimum]):
+                # Appends all occurrences of current number to sorted array
+                sorted_numbers.append(outer_iterator)
+    return sorted_numbers
 
 
 def bucket_sort(numbers, num_buckets=10):
