@@ -319,10 +319,10 @@ def partition(items, low, high):
     MEMORY:             O(?) """
     pivot = low                                     # Defines pivot as lower index
     for iterator in range(low + 1, high + 1):       # Iterates across incremented partitioned range
-        if items[iterator] <= items[low]:           # Checks if current item is less than or equal to 
+        if items[iterator] <= items[low]:           # Checks if current item is less than or equal to lower indexed item
             pivot += 1                              # Increments pivot value and swaps current and pivoting items
             items[iterator], items[pivot] = items[pivot], items[iterator]
-            
+
     # Swaps pivoting and lower indexed items, then returns pivot value
     items[pivot], items[low] = items[low], items[pivot]
     return pivot
@@ -333,10 +333,17 @@ def quick_sort(items, low=None, high=None):
     RUNTIME (BEST):     O(?)\t
     RUNTIME (WORST):    O(?)\t
     MEMORY:             O(?) """
-    # TODO: Check if high and low range bounds have default values (not given)
-    # TODO: Check if list or range is so small it's already sorted (base case)
-    # TODO: Partition items in-place around a pivot and get index of pivot
-    # TODO: Sort each sublist range by recursively calling quick sort
+    if low is None:                                 # Checks if low index is undefined
+        low = 0                                     # Defines low index as zero
+    if high is None:                                # Checks if high index is undefined
+        high = len(items)                           # Defines high index as list length 
+    if low >= high:                                 # Checks if [low, high] range is mathematically invalid
+        return items                                # Return empty/invalid list
+    if low < high:                                  # Checks if [low, high] range is mathematically valid
+        pivot = partition(items, low, high)         # Partitions list and returns pivot value
+        quick_sort(items, low, pivot - 1)           # Recursively sorts on lower pivoted sublist
+        quick_sort(items, pivot + 1, high)          # Recursively sorts on higher pivoted sublist
+    return items
 
 
 
