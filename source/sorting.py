@@ -240,19 +240,48 @@ def shell_sort(items):
 def merge(items1, items2):
     """ Merge given lists of items, each assumed to already be in sorted order,
     and return a new list containing all items in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Repeat until one list is empty
-    # TODO: Find minimum item in both lists and append it to new list
-    # TODO: Append remaining items in non-empty list to new list
+    RUNTIME (BEST):     O(1) -> Both lists contain one item. \t
+    RUNTIME (WORST):    O(max(N, M)) -> Iterates over maximum length between both lists. \t
+    MEMORY:             O(N + M) -> Creates new list containing all elements of both lists. """
+    iterator1, iterator2 = 0, 0                     # Initializes iterators and lengths of both lists
+    LENGTH_ITEMS1, LENGTH_ITEMS2 = len(items1), len(items2)
+    merged_list = list()                            # Initializes returning merged list from both lists
+
+    # Loops over both lists (N * M) comparing each pair of indexed elements
+    while iterator1 < LENGTH_ITEMS1 and iterator2 < LENGTH_ITEMS2:
+        # Defines local minima and initializes absolute minimum between both sorted list items
+        local_minimum1, local_minimum2 = items1[iterator1], items2[iterator2]
+        absolute_minimum = 0
+
+        # Checks if first list's local minimum is less than second list's local minimum
+        if local_minimum1 < local_minimum2:
+            absolute_minimum = local_minimum1       # Sets absolute minimum to local minimum of first list
+            merged_list.append(absolute_minimum)    # Appends absolute minimum to merged list
+            iterator1 += 1                          # Increments first list's iterator
+        # Checks if second list's local minimum is less than or equal to first list's local minimum
+        else:
+            absolute_minimum = local_minimum2       # Sets absolute minimum to local minimum of second list
+            merged_list.append(absolute_minimum)    # Appends absolute minimum to merged list
+            iterator2 += 1                          # Increments second list's iterator
+
+    # Checks if first list is non-empty
+    if iterator1 != LENGTH_ITEMS1:
+        # Adds remaining elements from first list to merged list
+        merged_list.extend(items1[iterator1:LENGTH_ITEMS1])
+    # Checks if second list is non-empty
+    else:
+        # Adds remaining elements from second list to merged list
+        merged_list.extend(items2[iterator2:LENGTH_ITEMS2])
+    return merged_list
 
 
 def split_sort_merge(items):
     """Sort given items by splitting list into two approximately equal halves,
     sorting each with an iterative sorting algorithm, and merging results into
     a list in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
+    RUNTIME (BEST):     O(?)\t
+    RUNTIME (WORST):    O(?)\t
+    MEMORY:             O(?) """
     # TODO: Split items list into approximately equal halves
     # TODO: Sort each half using any other sorting algorithm
     # TODO: Merge sorted halves into one list in sorted order
@@ -261,8 +290,9 @@ def split_sort_merge(items):
 def merge_sort(items):
     """Sort given items by splitting list into two approximately equal halves,
     sorting each recursively, and merging results into a list in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
+    RUNTIME (BEST):     O(?)\t
+    RUNTIME (WORST):    O(?)\t
+    MEMORY:             O(?) """
     # TODO: Check if list is so small it's already sorted (base case)
     # TODO: Split items list into approximately equal halves
     # TODO: Sort each half by recursively calling merge sort
@@ -274,8 +304,9 @@ def partition(items, low, high):
     `[low...high]` by choosing a pivot (TODO: document your method here) from
     that range, moving pivot into index `p`, items less than pivot into range
     `[low...p-1]`, and items greater than pivot into range `[p+1...high]`.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
+    RUNTIME (BEST):     O(?)\t
+    RUNTIME (WORST):    O(?)\t
+    MEMORY:             O(?) """
     # TODO: Choose a pivot any way and document your method in docstring above
     # TODO: Loop through all items in range [low...high]
     # TODO: Move items less than pivot into front of range [low...p-1]
@@ -286,9 +317,9 @@ def partition(items, low, high):
 def quick_sort(items, low=None, high=None):
     """Sort given items in place by partitioning items in range `[low...high]`
     around a pivot item and recursively sorting each remaining sublist range.
-    TODO: Best case running time: ??? Why and under what conditions?
-    TODO: Worst case running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
+    RUNTIME (BEST):     O(?)\t
+    RUNTIME (WORST):    O(?)\t
+    MEMORY:             O(?) """
     # TODO: Check if high and low range bounds have default values (not given)
     # TODO: Check if list or range is so small it's already sorted (base case)
     # TODO: Partition items in-place around a pivot and get index of pivot
@@ -298,8 +329,9 @@ def quick_sort(items, low=None, high=None):
 def counting_sort(numbers):
     """Sort given numbers (integers) by counting occurrences of each number,
     then looping over counts and copying that many numbers into output list.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
+    RUNTIME (BEST):     O(?)\t
+    RUNTIME (WORST):    O(?)\t
+    MEMORY:             O(?) """
     # TODO: Find range of given numbers (minimum and maximum integer values)
     # TODO: Create list of counts with a slot for each number in input range
     # TODO: Loop over given numbers and increment each number's count
@@ -310,8 +342,9 @@ def counting_sort(numbers):
 def bucket_sort(numbers, num_buckets=10):
     """Sort given numbers by distributing into buckets representing subranges,
     sorting each bucket, and combining contents of all buckets in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
+    RUNTIME (BEST):     O(?)\t
+    RUNTIME (WORST):    O(?)\t
+    MEMORY:             O(?) """
     # TODO: Find range of given numbers (minimum and maximum integer values)
     # TODO: Create list of buckets to store numbers in subranges of input range
     # TODO: Loop over given numbers and place each item in appropriate bucket
