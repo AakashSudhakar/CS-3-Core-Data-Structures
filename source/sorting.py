@@ -375,18 +375,32 @@ def counting_sort(numbers):
 
 
 def bucket_sort(numbers, num_buckets=10):
-    """Sort given numbers by distributing into buckets representing subranges,
-    sorting each bucket, and combining contents of all buckets in sorted order.
-    RUNTIME (BEST):     O(?)\t
-    RUNTIME (WORST):    O(?)\t
-    MEMORY:             O(?) """
-    # TODO: Find range of given numbers (minimum and maximum integer values)
-    # TODO: Create list of buckets to store numbers in subranges of input range
-    # TODO: Loop over given numbers and place each item in appropriate bucket
-    # TODO: Sort each bucket using any sorting algorithm (recursive or another)
-    # TODO: Loop over buckets and append each bucket's numbers into output list
     # FIXME: Improve this to mutate input instead of creating new output list
+    """ Sorts given numbers by distributing into buckets representing subranges,
+    sorting each bucket, and combining contents of all buckets in sorted order.\n
+    RUNTIME (BEST):     O(1) -> ???\t
+    RUNTIME (WORST):    O(n^2) -> ???\t
+    MEMORY:             O(n + k) -> ??? """
+    # Initializes absolute maxima and minima of numerical list
+    absolute_minimum, absolute_maximum = min(numbers), max(numbers)
+    LENGTH_ITEMS = len(numbers)                     # Initializes original list length
 
+    buckets = [list() for _ in range(num_buckets)]  # Initializes and creates list of buckets
+    for iterator in range(LENGTH_ITEMS):            # Iterates across original list
+        # Creates bucket position based on value of current list number and appends number to bucket
+        bucket = int(num_buckets * numbers[iterator])
+        buckets[bucket].append(numbers[iterator])
+    LENGTH_BUCKETS = len(buckets)                   # Initializes length of bucket list
+
+    for iterator in range(LENGTH_BUCKETS):          # Iterates across buckets
+        insertion_sort(buckets[iterator], True)     # Performs binary insertion sort on items in each bucket
+
+    sorted_numbers = list()                         # Initializes sorted numbers list
+    for iterator in range(LENGTH_BUCKETS):          # Iterates across buckets
+        while len(buckets[iterator]) > 0:           # Iterates while current bucket is not empty
+            # Pops bucket values from bucket list and into sorted list while current bucket is not empty
+            sorted_numbers.append(buckets[iterator].pop(0))
+    return sorted_numbers
 
 def random_ints(count=20, min=1, max=50):
     """Return a list of `count` integers sampled uniformly at random from
