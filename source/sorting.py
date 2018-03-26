@@ -317,12 +317,15 @@ def partition(items, low, high):
     RUNTIME (BEST):     O(?)\t
     RUNTIME (WORST):    O(?)\t
     MEMORY:             O(?) """
-    # TODO: Choose a pivot any way and document your method in docstring above
-    # TODO: Loop through all items in range [low...high]
-    # TODO: Move items less than pivot into front of range [low...p-1]
-    # TODO: Move items greater than pivot into back of range [p+1...high]
-    # TODO: Move pivot item into final position [p] and return index p
-
+    pivot = low                                     # Defines pivot as lower index
+    for iterator in range(low + 1, high + 1):       # Iterates across incremented partitioned range
+        if items[iterator] <= items[low]:           # Checks if current item is less than or equal to 
+            pivot += 1                              # Increments pivot value and swaps current and pivoting items
+            items[iterator], items[pivot] = items[pivot], items[iterator]
+            
+    # Swaps pivoting and lower indexed items, then returns pivot value
+    items[pivot], items[low] = items[low], items[pivot]
+    return pivot
 
 def quick_sort(items, low=None, high=None):
     """Sort given items in place by partitioning items in range `[low...high]`
@@ -334,6 +337,7 @@ def quick_sort(items, low=None, high=None):
     # TODO: Check if list or range is so small it's already sorted (base case)
     # TODO: Partition items in-place around a pivot and get index of pivot
     # TODO: Sort each sublist range by recursively calling quick sort
+
 
 
 def counting_sort(numbers):
