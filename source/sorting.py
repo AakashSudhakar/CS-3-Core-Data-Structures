@@ -298,7 +298,6 @@ def merge_sort(items):
     RUNTIME (BEST):     O(1) -> List contains one item. \t
     RUNTIME (WORST):    O(n * log(n)) -> Logarithmically sorts all items per item in list.\t
     MEMORY:             O(n) -> Recursively splits, then merges list of n items. """
-    # TODO: Consider using NumPy arrays to reduce memory costs of copying references with slices
     LENGTH_ITEMS = len(items)                       # Initializes length of list
     if LENGTH_ITEMS < 2:                           # Recursion endgame when split list contains one item
         return items
